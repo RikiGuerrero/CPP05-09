@@ -110,7 +110,7 @@ void ScalarConverter::convert(const std::string &input)
 	if (isChar(input))
 	{
 		char c = input[0];
-		std::cout << "char: '" << c << std::endl;
+		std::cout << "char: '" << c << "'" << std::endl;
 		std::cout << "int: " << static_cast<int>(c) << std::endl;
 		std::cout << "float: " << static_cast<float>(c) << ".0f" << std::endl;
 		std::cout << "double: " << static_cast<double>(c) << ".0" << std::endl;
@@ -120,7 +120,7 @@ void ScalarConverter::convert(const std::string &input)
 	if (isInt(input))
 	{
 		long val = strtol(input.c_str(), NULL, 10);
-		if (val > std::numeric_limits<char>::max() || val < std::numeric_limits<char>::min())
+		if (val > std::numeric_limits<int>::max() || val < std::numeric_limits<int>::min())
 		{
 			std::cout << "char: impossible\nint: impossible\n"
 					  << "float: impossible\ndouble: impossible" << std::endl;

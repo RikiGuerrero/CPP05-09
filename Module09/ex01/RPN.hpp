@@ -18,7 +18,6 @@ class RPN
 		~RPN();
 
 		RPN(const char *str);
-		void calculate();
 };
 
 #endif

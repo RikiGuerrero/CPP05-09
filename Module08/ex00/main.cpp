@@ -29,4 +29,5 @@ int main()
 	{
 		std::cerr << e << std::endl;
 	}
+	return 0;
 }

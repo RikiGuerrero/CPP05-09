@@ -17,11 +17,11 @@ int main()
 		//sp.addNumber(1);
 
 		Span sp2(10000);
-		std::vector<int> v;
+		std::vector<int> numbers;
 		std::srand(time(NULL));
 		for (int i = 0; i < 10000; i++)
-			sp2.addNumber(rand() % 100000);
-		sp2.addNumber(v.begin(), v.end());
+			numbers.push_back(std::rand() % 100000);
+		sp2.addNumber(numbers.begin(), numbers.end());
 		std::cout << "shortest span: " << sp2.shortestSpan() << std::endl;
 		std::cout << "longest span: " << sp2.longestSpan() << std::endl;
 	}

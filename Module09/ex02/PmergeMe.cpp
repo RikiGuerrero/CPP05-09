@@ -22,9 +22,12 @@ void PmergeMe::initialize(int argc, char **argv)
 {
 	for (int i = 1; i < argc; i++)
 	{
-		int num = std::atoi(argv[i]);
-		if (num <= 0)
-			throw std::invalid_argument("Error");
+		std::stringstream readstring(argv[i]);
+		int num;
+		if (!(readstring >> num) || !(readstring.eof()))
+			throw std::invalid_argument("Invalid argument: " + std::string(argv[i]));
+		if (num < 0)
+			throw std::invalid_argument("Negative number: " + std::string(argv[i]));
 		_vec.push_back(num);
 		_deque.push_back(num);
 	}

@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <ctime>
 #include <iomanip>
+#include <sstream>
 
 class PmergeMe
 {

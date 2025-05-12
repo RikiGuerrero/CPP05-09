@@ -54,6 +54,13 @@ float BitcoinExchange::getExchangeRate(int year, int month, int day)
 {
 	std::string date = intToString(year) + "-" + formatNumber(month) + "-" + formatNumber(day);
 	std::map<std::string, float>::iterator it = exchange.lower_bound(date);
+
+	if (it == exchange.end() || it ->first != date)
+	{
+		if (it == exchange.begin())
+			return 0;
+		it--;
+	}
 	return it->second;
 }
 
@@ -68,6 +75,7 @@ void BitcoinExchange::processInputFile(const std::string &inputFile)
 		throw std::string("could not open input file");
 	std::string line;
 	getline(file, line);
+	line.erase(line.find_last_not_of(" \n\r\t") + 1);
 	if (line != "date | value")
 		throw std::string("invalid input file format");
 	while (getline(file, line))
@@ -117,7 +125,7 @@ void BitcoinExchange::checkDate(int year, int month, int day)
 	if (month < 1 || month > 12)
 		throw std::string("invalid month");
 	
-	int daysInMonth[] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30};
+	int daysInMonth[] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 	if (month == 2 && isLeapYear(year))
 		daysInMonth[2] = 29;
 

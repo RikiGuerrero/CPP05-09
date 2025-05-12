@@ -5,7 +5,7 @@ int main (int argc, char **argv)
 	try
 	{
 		if (argc < 2)
-			throw std::invalid_argument("Usage: ./ex02 \"<int1> <int2> <int3> ...\"");
+			throw std::invalid_argument("Usage: ./PmergeMe \"<int1> <int2> <int3> ...\"");
 
 		PmergeMe sorter;
 		sorter.initialize(argc, argv);
@@ -13,7 +13,7 @@ int main (int argc, char **argv)
 		std::clock_t startVec = std::clock();
 		sorter.fordJohnsonSortVector();
 		std::clock_t endVec = std::clock();
-		double timeVec = static_cast<double>(endVec - startVec) / CLOCKS_PER_SEC * 1e6;
+		double timeVec = static_cast<double>(endVec - startVec) / CLOCKS_PER_SEC * 1000000;
 
 		std::clock_t startDeque = std::clock();
 		sorter.fordJohnsonSortDeque();

@@ -17,7 +17,6 @@ RPN::~RPN() {}
 
 RPN::RPN(const char *str)
 {
-	std::stack<int> stack;
 	std::stringstream ss(str);
 	std::string token;
 
@@ -28,35 +27,35 @@ RPN::RPN(const char *str)
 			int num;
 			std::stringstream numStream(token);
 			numStream >> num;
-			stack.push(num);
+			_stack.push(num);
 		}
 		else
 		{
-			if (stack.size() < 2)
+			if (_stack.size() < 2)
 				throw std::invalid_argument("Invalid RPN expression");
-			int a = stack.top();
-			stack.pop();
-			int b = stack.top();
-			stack.pop();
+			int a = _stack.top();
+			_stack.pop();
+			int b = _stack.top();
+			_stack.pop();
 			if (token == "+")
-				stack.push(a + b);
+				_stack.push(a + b);
 			else if (token == "-")
-				stack.push(b - a);
+				_stack.push(b - a);
 			else if (token == "*")
-				stack.push(a * b);
+				_stack.push(a * b);
 			else if (token == "/")
 			{
 				if (a == 0)
 					throw std::invalid_argument("Division by zero");
-				stack.push(b / a);
+				_stack.push(b / a);
 			}
 			else
 				throw std::invalid_argument("Invalid RPN expression");
 		}
 	}
-	if (stack.size() != 1)
+	if (_stack.size() != 1)
 		throw std::invalid_argument("Invalid expression");
-	std::cout << stack.top() << std::endl;
+	std::cout << _stack.top() << std::endl;
 }
 
 

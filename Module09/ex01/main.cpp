@@ -5,7 +5,7 @@ int main(int argc, char **argv)
 	try 
 	{
 		if (argc != 2)
-			throw std::invalid_argument("usage: ./rpn \"3 4 +\"");
+			throw std::invalid_argument("usage: ./RPN \"3 4 +\"");
 		RPN rpn(argv[1]);
 	}
 	catch (std::exception &e) 

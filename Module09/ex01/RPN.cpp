@@ -15,6 +15,19 @@ RPN &RPN::operator=(const RPN &other)
 
 RPN::~RPN() {}
 
+int validateNumber(const std::string &token)
+{
+	char *end;
+	long num = strtol(token.c_str(), &end, 10);
+
+	if (*end != '\0')
+		throw std::invalid_argument("Invalid number in RPN expression");
+	if (num < INT_MIN || num > INT_MAX)
+		throw std::out_of_range("Number out of range in RPN expression");
+	
+	return static_cast<int>(num);
+}
+
 RPN::RPN(const char *str)
 {
 	std::stringstream ss(str);
@@ -24,9 +37,7 @@ RPN::RPN(const char *str)
 	{
 		if (isdigit(token[0]) || (token.size() > 1 && token[0] == '-'))
 		{
-			int num;
-			std::stringstream numStream(token);
-			numStream >> num;
+			int num = validateNumber(token);
 			_stack.push(num);
 		}
 		else

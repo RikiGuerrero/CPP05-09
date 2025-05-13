@@ -34,8 +34,6 @@ void BitcoinExchange::loadDatabase(const std::string &fileName)
 	}
 }
 
-
-
 std::string intToString(int n)
 {
 	std::stringstream ss;
@@ -64,6 +62,35 @@ float BitcoinExchange::getExchangeRate(int year, int month, int day)
 	return it->second;
 }
 
+bool isValidNumberFormat(const std::string &str)
+{
+	bool decimalPoint = false;
+	size_t i = 0;
+
+	while (i < str.length() && isspace(str[i]))
+		i++;
+	
+	if (i < str.length() && str[i] == '-')
+		i++;
+	if (i == str.length())
+		return false;
+	for (; i < str.length(); i++)
+	{
+		if (str[i] == '.')
+		{
+			if (decimalPoint)
+				return false;
+			decimalPoint = true;
+		}
+		else if (!isdigit(str[i]))
+		{
+			if (!isspace(str[i]))
+				return false;
+		}
+	}
+	return true;
+}
+
 void BitcoinExchange::processInputFile(const std::string &inputFile)
 {
 	int year, month, day;
@@ -90,8 +117,15 @@ void BitcoinExchange::processInputFile(const std::string &inputFile)
 			std::cerr << "Error: bad input => " << line << std::endl;
 			continue;
 		}
-		else if ((sscanf(line.c_str(), "%d-%d-%d | %f", &year, &month, &day, &value)) == 4)
+		std::string datePart = line.substr(0, line.find('|'));
+		std::string valuePart = line.substr(line.find('|') + 1);
+
+		datePart.erase(datePart.find_last_not_of(" \n\r\t") + 1);
+		valuePart.erase(0, valuePart.find_first_not_of(" \n\r\t"));
+
+		if ((sscanf(line.c_str(), "%d-%d-%d", &year, &month, &day)) == 3 && isValidNumberFormat(valuePart))
 		{
+			value = atof(valuePart.c_str());
 			try
 			{
 				checkValue(value);

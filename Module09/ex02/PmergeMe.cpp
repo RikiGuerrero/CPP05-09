@@ -22,12 +22,18 @@ void PmergeMe::initialize(int argc, char **argv)
 {
 	for (int i = 1; i < argc; i++)
 	{
-		std::stringstream readstring(argv[i]);
+		std::string arg(argv[i]);
+		arg.erase(0, arg.find_first_not_of(" \t\n\r"));
+		arg.erase(arg.find_last_not_of(" \t\n\r") + 1);
+
+		std::stringstream readstring(arg);
 		int num;
 		if (!(readstring >> num) || !(readstring.eof()))
 			throw std::invalid_argument("Invalid argument: " + std::string(argv[i]));
 		if (num < 0)
 			throw std::invalid_argument("Negative number: " + std::string(argv[i]));
+		if (std::find(_vec.begin(), _vec.end(), num) != _vec.end())
+			throw std::invalid_argument("Duplicate number: " + std::string(argv[i]));
 		_vec.push_back(num);
 		_deque.push_back(num);
 	}

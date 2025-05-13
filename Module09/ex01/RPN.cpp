@@ -22,6 +22,8 @@ int validateNumber(const std::string &token)
 
 	if (*end != '\0')
 		throw std::invalid_argument("Invalid number in RPN expression");
+	if (num < 0)
+		throw std::invalid_argument("Negative number in RPN expression");
 	if (num < INT_MIN || num > INT_MAX)
 		throw std::out_of_range("Number out of range in RPN expression");
 	
